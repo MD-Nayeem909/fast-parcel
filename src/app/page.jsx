@@ -4,6 +4,7 @@ import Services from "@/components/landing/Services";
 import CTA from "@/components/landing/CTA";
 import Features from "@/components/landing/Features";
 import Hero from "@/components/landing/Hero";
+import Pricing from "@/components/landing/Pricing";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <Services/>
       <Features />
       <CTA />
+      <Pricing/>
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
   const footerLinks = {
-    pagedone: [
+    Quick_links: [
       {
         name: "Home",
         href: "#",
@@ -27,24 +27,6 @@ const Footer = () => {
         href: "#",
       },
     ],
-    products: [
-      {
-        name: "Figma UI System",
-        href: "#",
-      },
-      {
-        name: "Icons Assets",
-        href: "#",
-      },
-      {
-        name: "Responsive Blocks",
-        href: "#",
-      },
-      {
-        name: "Components Library",
-        href: "#",
-      },
-    ],
     resources: [
       {
         name: "FAQs",
@@ -58,12 +40,22 @@ const Footer = () => {
         name: "Documentation",
         href: "#",
       },
+    ],
+    Company: [
       {
-        name: "User Guide",
+        name: "About us",
+        href: "#",
+      },
+      {
+        name: "Contact",
+        href: "#",
+      },
+      {
+        name: "Blog",
         href: "#",
       },
     ],
-    blogs: [
+    blog: [
       {
         name: "News",
         href: "#",
@@ -102,39 +94,12 @@ const Footer = () => {
   ];
   return (
     <section>
-      <footer className="footer p-10 bg-base-200 text-base-content">
-        <aside>
-          <Truck className="w-12 h-12 text-primary" />
-          <p className="font-bold text-lg mt-2">FastParcel Ltd.</p>
-          <p>Reliable logistics since 2024</p>
-        </aside>
-        <nav>
-          <h6 className="footer-title">Services</h6>
-          <a className="link link-hover">Branding</a>
-          <a className="link link-hover">Design</a>
-          <a className="link link-hover">Marketing</a>
-          <a className="link link-hover">Advertisement</a>
-        </nav>
-        <nav>
-          <h6 className="footer-title">Company</h6>
-          <a className="link link-hover">About us</a>
-          <a className="link link-hover">Contact</a>
-          <a className="link link-hover">Jobs</a>
-          <a className="link link-hover">Press kit</a>
-        </nav>
-        <nav>
-          <h6 className="footer-title">Legal</h6>
-          <a className="link link-hover">Terms of use</a>
-          <a className="link link-hover">Privacy policy</a>
-          <a className="link link-hover">Cookie policy</a>
-        </nav>
-      </footer>
-      <footer className="w-full bg-white">
+      <footer className=" md:p-10 bg-base-100 text-base-content">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-8 py-10 max-sm:max-w-sm max-sm:mx-auto gap-y-8">
-            <div className="col-span-full mb-10 lg:col-span-2 lg:mb-0">
+            <div className="col-span-full items-center justify-center flex flex-col md:items-start mb-5 lg:col-span-2 lg:mb-0">
               <Logo />
-              <p className="py-8 text-sm text-neutral lg:max-w-xs text-center lg:text-left">
+              <p className="py-4 md:py-8 text-sm text-neutral lg:max-w-xs text-center lg:text-left">
                 Trusted in more than 100 countries & 5 million customers. Have
                 any query ?
               </p>
@@ -173,14 +138,14 @@ const Footer = () => {
 
           {}
           <div className="py-7 border-t border-base-300">
-            <div className="flex items-center justify-center flex-col lg:justify-between lg:flex-row">
-              <span className="text-sm text-neutral">
+            <div className="flex items-center flex-col lg:justify-between lg:flex-row">
+              <p className="text-sm text-center text-neutral">
                 ©{" "}
                 <Link href="#" className="hover:text-primary">
                   FastParcel Ltd.
                 </Link>{" "}
                 {new Date().getFullYear()}, All rights reserved.
-              </span>
+              </p>
               <div className="flex mt-4 space-x-4 sm:justify-center lg:mt-0">
                 {socialLinks.map((link) => (
                   <a
