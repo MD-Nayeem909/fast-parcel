@@ -7,11 +7,11 @@ const ThemeContext = createContext();
 const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState("light");
   const [mounted, setMounted] = useState(false);
-  
+
   useEffect(() => {
+    setMounted(true);
     const savedTheme = localStorage.getItem("theme") || "light";
     setTheme(savedTheme);
-    setMounted(true);
   }, []);
 
   useEffect(() => {
@@ -22,12 +22,16 @@ const ThemeProvider = ({ children }) => {
   }, [theme, mounted]);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
-  if (!mounted) {
-    return <div style={{ visibility: "hidden" }}>{children}</div>;
-  }
+  useEffect(() => {
+    if (mounted) {
+      document.documentElement.setAttribute("data-theme", theme);
+    }
+  }, [theme, mounted]);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -36,5 +40,11 @@ const ThemeProvider = ({ children }) => {
   );
 };
 
-export const useTheme = () => useContext(ThemeContext);
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
+};
 export default ThemeProvider;

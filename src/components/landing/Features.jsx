@@ -1,5 +1,6 @@
 import React from "react";
 import { Globe, Package, ShieldCheck } from "lucide-react";
+import FadeIn from "../motion/FadeIn";
 
 const Features = () => {
   const features = [
@@ -21,12 +22,14 @@ const Features = () => {
   ];
   return (
     <section id="features" className="py-20 bg-base-100 container mx-auto px-4">
-      <div className="text-center mb-16">
-        <h2 className="text-3xl font-bold mb-4">Why Choose Us?</h2>
-        <p className="text-neutral max-w-2xl mx-auto">
-          We provide end-to-end logistics solutions tailored to your needs.
-        </p>
-      </div>
+      <FadeIn>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4">Why Choose Us?</h2>
+          <p className="text-neutral max-w-2xl mx-auto">
+            We provide end-to-end logistics solutions tailored to your needs.
+          </p>
+        </div>
+      </FadeIn>
 
       <div className="grid md:grid-cols-3 gap-8">
         {features.map((feature, index) => (
