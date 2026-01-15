@@ -27,7 +27,7 @@ const services = [
 
 const Services = () => {
   return (
-    <section className="py-20 bg-base-200">
+    <section className="py-20 bg-base-100/40">
       <div className="container mx-auto px-4">
         <FadeIn>
           <h2 className="text-3xl font-bold text-center mb-12">Our Services</h2>

@@ -21,7 +21,7 @@ const Features = () => {
     },
   ];
   return (
-    <section id="features" className="py-20 bg-base-100 container mx-auto px-4">
+    <section id="features" className="py-20 bg-base-100/40 container mx-auto px-4">
       <FadeIn>
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">Why Choose Us?</h2>
