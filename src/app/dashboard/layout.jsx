@@ -148,8 +148,8 @@ export default function DashboardLayout({ children }) {
               <>
                 <li className="mb-2">
                   <Link
-                    href="/dashboard/admin/parcels"
-                    className={isActive("/dashboard/admin/parcels")}
+                    href="/dashboard/admin/all-parcels"
+                    className={isActive("/dashboard/admin/all-parcels")}
                   >
                     <Package size={20} /> All Parcels
                   </Link>

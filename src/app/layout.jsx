@@ -24,12 +24,12 @@ export const metadata = {
 
 const RootLayout = ({ children }) => {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ClientProvider>
-          <ThemeProvider>
+    <ThemeProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <ClientProvider>
             <header className="sticky top-0 z-100">
               <Navbar />
             </header>
@@ -44,10 +44,10 @@ const RootLayout = ({ children }) => {
               src="https://upload-widget.cloudinary.com/global/all.js"
               strategy="beforeInteractive"
             />
-          </ThemeProvider>
-        </ClientProvider>
-      </body>
-    </html>
+          </ClientProvider>
+        </body>
+      </html>
+    </ThemeProvider>
   );
 };
 

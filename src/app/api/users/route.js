@@ -6,22 +6,29 @@ import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET(req) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session)
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
     await dbConnect();
+    const session = await getServerSession(authOptions);
+    if (!session || session.user.role !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { searchParams } = new URL(req.url);
     const role = searchParams.get("role");
 
-    let query = {};
-    if (role) {
-      query.role = role;
-    }
+    const query = role ? { role: role } : {};
 
-    const users = await User.find(query).select("-password");
-    return NextResponse.json(users);
+    const users = await User.find(query)
+      .select("-password")
+      .sort({ createdAt: -1 });
+    return NextResponse.json({
+      success: true,
+      data: users,
+    });
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
 }
+
