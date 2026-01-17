@@ -42,7 +42,7 @@ export default function DeliveryHistory() {
     );
 
   return (
-    <div className="container mx-auto max-w-5xl space-y-6">
+    <div className="container mx-auto max-w-5xl space-y-6 animate-in fade-in duration-700">
       {/* Header & Search */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>

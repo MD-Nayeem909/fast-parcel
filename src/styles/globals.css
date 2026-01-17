@@ -1,52 +1,14 @@
 @import "tailwindcss";
-@plugin "daisyui";
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  color-scheme: "light";
+  prefersdark: false;
+  color-scheme: light;
+  default: true;
 
   /* Background & Base Colors */
   --color-base-100: #ffffff; /* কার্ড ব্যাকগ্রাউন্ড */
@@ -62,7 +24,7 @@ code {
   --color-primary: #ca2c48;
   --color-primary-content: #ffffff;
 
-  --color-secondary: #2563eb; /* ট্রাস্টের জন্য ব্লু (বাটন বা লিংকের জন্য) */
+  --color-secondary: #2563eb;
   --color-secondary-content: #ffffff;
 
   --color-accent: #f59e0b; /* ডেলিভারি স্ট্যাটাস বা হাইলাইটের জন্য এম্বার */
@@ -73,33 +35,29 @@ code {
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-error: #ef4444;
-
-  /* UI Adjustments */
-  --radius-selector: 0.75rem;
-  --radius-field: 0.5rem;
-  --radius-box: 1.5rem; /* প্রফেশনাল রাউন্ডেড লুক */
 }
 
 @plugin "daisyui/theme" {
   name: "dark";
   default: false;
-  color-scheme: "dark";
+  prefersdark: true;
+  color-scheme: dark;
 
   /* Background & Base Colors */
-  --color-base-100: #1e293b; /* কার্ডের জন্য (Slate-800) */
-  --color-base-200: #0f172a; /* মেইন ব্যাকগ্রাউন্ড (Slate-900) */
-  --color-base-300: #334155; /* বর্ডার */
+  --color-base-100: #1e293b;
+  --color-base-200: #0f172a;
+  --color-base-300: #334155; 
 
   /* Content (Text) Colors */
-  --color-base-content: #f8fafc; /* মেইন টেক্সট (Slate-50) */
-  --color-neutral: #94a3b8; /* সেকেন্ডারি টেক্সট (Slate-400) */
+  --color-base-content: #f8fafc;
+  --color-neutral: #94a3b8;
   --color-neutral-content: #ffffff;
 
   /* Brand Colors */
-  --color-primary: #ff5b5b; /* ব্র্যান্ড কালার ডার্ক মোডেও এক থাকবে */
+  --color-primary: #ff5b5b;
   --color-primary-content: #ffffff;
 
-  --color-secondary: #3b82f6; /* লাইট ব্লু শেড */
+  --color-secondary: #3b82f6;
   --color-secondary-content: #ffffff;
 
   --color-accent: #fbbf24;
@@ -110,13 +68,34 @@ code {
   --color-success: #34d399;
   --color-warning: #fbbf24;
   --color-error: #f87171;
-
-  /* UI Adjustments */
-  --radius-selector: 0.75rem;
-  --radius-field: 0.5rem;
-  --radius-box: 1.5rem;
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  [data-theme="light"] body {
+    @apply text-[#0f172a];
+  }
+}
+@layer base {
+  [data-theme="dark"] body {
+    @apply text-[#f8fafc];
+  }
+}
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}

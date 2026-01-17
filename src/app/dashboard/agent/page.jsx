@@ -14,8 +14,14 @@ import {
 import Link from "next/link";
 
 export default function AgentOverview() {
-  const { data: authData } = useQuery({ queryKey: ["auth"] });
-  const user = authData?.user;
+  const { data: session } = useQuery({
+    queryKey: ["auth"],
+    queryFn: async () => {
+      const res = await fetch("/api/auth/session");
+      return res.json();
+    },
+  });
+  const user = session?.user;
 
   const { data: parcels, isLoading } = useQuery({
     queryKey: ["agent-stats"],
@@ -34,6 +40,9 @@ export default function AgentOverview() {
     completed: parcels?.filter((p) => p.status === "delivered").length || 0,
     total: parcels?.length || 0,
   };
+
+  const progressPercentage =
+    stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
 
   if (isLoading)
     return (
@@ -133,7 +142,8 @@ export default function AgentOverview() {
                         {parcel.receiverInfo?.name || "Unknown"}
                       </p>
                       <p className="text-xs text-neutral flex items-center gap-1">
-                        <MapPin size={12} /> {parcel.receiverInfo?.address.slice(0, 25)}
+                        <MapPin size={12} />{" "}
+                        {parcel.receiverInfo?.address.slice(0, 25)}
                         ...
                       </p>
                     </div>
@@ -178,16 +188,23 @@ export default function AgentOverview() {
           </div>
 
           <div className="bg-primary/5 border border-primary/10 rounded-[2.5rem] p-8">
-            <h4 className="font-bold text-primary mb-4">Daily Goal</h4>
+            <div className="flex justify-between items-center mb-4">
+              <h4 className="font-bold text-primary">Daily Goal</h4>
+              <span className="text-[10px] font-black bg-primary/20 text-primary px-2 py-1 rounded-lg">
+                {stats.completed} / {stats.total}
+              </span>
+            </div>
+
             <div className="w-full bg-primary/10 h-3 rounded-full overflow-hidden">
               <div
-                className="bg-primary h-full rounded-full"
-                style={{ width: "65%" }}
+                className="bg-primary h-full rounded-full transition-all duration-700 ease-in-out"
+                style={{ width: `${progressPercentage}%` }}
               ></div>
             </div>
+
             <p className="text-xs font-bold text-neutral mt-3 flex justify-between">
               <span>Progress</span>
-              <span>65% Completed</span>
+              <span>{progressPercentage}% Completed</span>
             </p>
           </div>
         </div>
