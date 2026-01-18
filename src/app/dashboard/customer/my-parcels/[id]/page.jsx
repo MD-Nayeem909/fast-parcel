@@ -46,7 +46,7 @@ export default function ParcelDetailsPage() {
           </div>
           <p className="text-neutral font-medium flex items-center gap-2">
             <Calendar size={16} /> Booked on:{" "}
-            {new Date(parcel?.bookingDate).toLocaleDateString()}
+            {new Date(parcel?.createdAt).toLocaleDateString()}
           </p>
         </div>
         <button className="btn btn-primary rounded-2xl px-8 shadow-lg shadow-primary/20 font-black">
