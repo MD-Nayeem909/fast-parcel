@@ -27,43 +27,48 @@ export default function ProfilePage() {
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-700 pb-10">
       {/* 1. Header & Avatar Section */}
-      <div className="relative">
+      <div className="relative mb-35">
         <div className="h-48 w-full bg-linear-to-r from-primary/20 to-primary/5 rounded-[3rem] border border-primary/10"></div>
-        <div className="absolute -bottom-10 left-10 flex items-end gap-6">
-          <div className="relative group">
-            <div className="w-32 h-32 rounded-[2.5rem] bg-base-100 p-2 shadow-xl">
-              <div className="w-full h-full rounded-4xl bg-base-200 overflow-hidden flex items-center justify-center">
-                {user?.image ? (
-                  <Image
-                    src={
-                      user?.image ||
-                      "https://i.ibb.co/vz6mD2V/user-placeholder.png"
-                    }
-                    width={128}
-                    height={128}
-                    className="w-full h-full object-cover"
-                    alt="Profile"
-                    onError={(e) => {
-                      e.target.src =
-                        "https://i.ibb.co/vz6mD2V/user-placeholder.png";
-                    }}
-                  />
-                ) : (
-                  <User size={50} className="text-neutral" />
-                )}
+        <div className="absolute -bottom-30 left-10 flex items-end gap-6">
+          <div>
+            <div className="">
+              <div className="w-32 h-32 rounded-[2.5rem] bg-base-100 p-2 shadow-xl relative group">
+                <div className="w-full h-full rounded-4xl bg-base-200 overflow-hidden flex items-center justify-center">
+                  {user?.image ? (
+                    <Image
+                      src={
+                        user?.image ||
+                        "https://i.ibb.co/vz6mD2V/user-placeholder.png"
+                      }
+                      width={128}
+                      height={128}
+                      className="w-full h-full object-cover"
+                      alt="Profile"
+                      onError={(e) => {
+                        e.target.src =
+                          "https://i.ibb.co/vz6mD2V/user-placeholder.png";
+                      }}
+                    />
+                  ) : (
+                    <User size={50} className="text-neutral" />
+                  )}
+                </div>
+              <button className="absolute right-0 bottom-0 p-2 bg-primary text-white rounded-xl shadow-lg hover:scale-110 transition-transform">
+                <Camera size={16} />
+              </button>
               </div>
             </div>
-            <button className="absolute bottom-2 right-2 p-2 bg-primary text-white rounded-xl shadow-lg hover:scale-110 transition-transform">
-              <Camera size={16} />
-            </button>
-          </div>
-          <div className="mb-4">
-            <h1 className="text-3xl font-black text-base-content flex items-center gap-2">
-              {user?.name} <ShieldCheck className="text-primary" size={24} />
-            </h1>
-            <p className="text-white font-bold uppercase tracking-widest text-[10px] bg-info backdrop-blur px-3 py-1 rounded-full inline-block border border-info mt-2">
-              Account Type: {user?.role || "Customer"}
-            </p>
+            <div className="mb-2">
+              <h1 className="text-3xl sm:text-5xl lg:text-4xl font-bold text-base-content tracking-tight leading-tight">
+                {user?.name}
+              </h1>
+              <div className="flex items-center gap-2">
+                <p className="text-white font-bold uppercase tracking-widest text-[10px] bg-info backdrop-blur px-3 py-1 rounded-full inline-block border border-info">
+                  Account Type: {user?.role || "Customer"}
+                </p>
+                <ShieldCheck className="text-primary" size={24} />
+              </div>
+            </div>
           </div>
         </div>
       </div>

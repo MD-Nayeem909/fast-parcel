@@ -27,17 +27,19 @@ const services = [
 
 const Services = () => {
   return (
-    <section className="py-20 bg-base-100/40">
-      <div className="container mx-auto px-4">
+    <section className="">
+      <div className="">
         <FadeIn>
-          <h2 className="text-3xl font-bold text-center mb-12">Our Services</h2>
+          <h2 className="text-3xl sm:text-5xl lg:text-4xl font-bold text-base-content tracking-tight leading-tight text-center">
+            Our Services
+          </h2>
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto mt-10">
           {services.map((service, index) => (
             <div
               key={index}
-              className="card bg-base-100 border-base-300 shadow-sm hover:shadow-xl transition-all"
+              className="card bg-base-100/50 hover:bg-base-100 border-base-100 shadow-sm hover:shadow-xl transition-all"
             >
               <FadeIn>
                 <div className="card-body items-center text-center">

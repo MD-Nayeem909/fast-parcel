@@ -1,8 +1,8 @@
-
 import React from "react";
-import { motion, PanInfo } from "framer-motion";
+import { motion } from "framer-motion";
+import { Star } from "lucide-react";
 
-const TestimonialsCard = ({ card, index, activeIndex, totalCards }) => {
+const TestimonialsCard = ({ item, index, activeIndex, totalCards }) => {
   let offset = index - activeIndex;
   if (offset > totalCards / 2) {
     offset -= totalCards;
@@ -10,40 +10,64 @@ const TestimonialsCard = ({ card, index, activeIndex, totalCards }) => {
     offset += totalCards;
   }
   const isVisible = Math.abs(offset) <= 1;
+  const isActive = offset === 0;
   const animate = {
-    x: `${offset * 50}%`,
+    x: `${offset * 70}%`,
     scale: offset === 0 ? 1 : 0.8,
     zIndex: totalCards - Math.abs(offset),
+    rotateY: offset * 15,
+    filter: isActive ? "blur(0px) brightness(1)" : "blur(4px) brightness(0.6)",
     opacity: isVisible ? 1 : 0,
     transition: {
       type: "spring",
       stiffness: 260,
-      damping: 30,
+      damping: 25,
     },
   };
   return (
     <motion.div
-      className="absolute w-1/2 md:w-1/3 h-[95%]"
-      style={{
-        transformStyle: "preserve-3d",
-      }}
+      className="absolute w-70 md:w-87.5 h-90 md:h-110"
+      style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
       animate={animate}
-      initial={false}
     >
-      <div className="relative w-full h-full rounded-3xl shadow-2xl overflow-hidden bg-gray-200 dark:bg-neutral-800">
+      <div className="relative w-full h-full rounded-[2.5rem] shadow-2xl overflow-hidden bg-base-200 border-2 border-base-300">
         <img
-          src={card.imageUrl}
-          alt={card.title}
-          className="w-full h-full object-cover pointer-events-none"
+          src={item.image}
+          alt={item.title}
+          className="w-full h-full opacity-10 object-cover pointer-events-none"
           onError={(e) => {
             const target = e.target;
             target.onerror = null;
-            target.src =
-              "https://placehold.co/400x600/1e1e1e/ffffff?text=Image+Missing";
+            target.src = anonymousFallbackImage;
           }}
         />
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-black/70 to-transparent">
-          <h4 className="text-white text-lg font-semibold">{card.title}</h4>
+        <div className="absolute inset-0 bg-linear-to-t from-base-100 via-base-200/20 to-transparent flex flex-col justify-center p-4">
+          <div className="flex flex-col items-center text-center mb-4">
+            <img
+              src={item.image}
+              alt={item.name}
+              className="w-30 h-30 mb-4 rounded-full object-cover"
+              onError={(e) => {
+                const target = e.target;
+                target.onerror = null;
+                target.src = anonymousFallbackImage;
+              }}
+            />
+            <div>
+              <p className="font-semibold text-base-content">{item.name}</p>
+              <p className="text-primary text-xs font-bold uppercase tracking-widest">
+                {item.role}
+              </p>
+            </div>
+          </div>
+          <p className="text-base-content text-center text-sm mb-3 italic">
+            "{item.content}"
+          </p>
+          <div className="flex items-center justify-center gap-1 mb-2">
+            {[...Array(item.rating)].map((_, i) => (
+              <Star key={i} size={20} className="fill-primary text-primary" />
+            ))}
+          </div>
         </div>
       </div>
     </motion.div>

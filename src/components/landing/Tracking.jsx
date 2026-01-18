@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Package, Truck, CheckCircle } from "lucide-react";
+import { Search, PackageSearch } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -43,28 +43,37 @@ export default function Tracking() {
   };
 
   return (
-    <section className="py-20 bg-base-100/40">
-      <div className="container mx-auto px-4 max-w-4xl">
+    <section className="">
+      <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-10">
-          <h2 className="text-4xl font-bold mb-4">Track Your Parcel</h2>
-          <p className="text-neutral">
+          <h2 className="text-3xl sm:text-5xl lg:text-4xl font-bold text-base-content tracking-tight leading-tight">
+            Track Your Parcel
+          </h2>
+          <p className="mt-4 text-lg text-neutral max-w-2xl mx-auto">
             Enter your tracking ID to see the real-time status.
           </p>
         </div>
 
         {/* Search Bar */}
-        <form onSubmit={handleTrack} className="flex gap-2 mb-12">
-          <input
-            type="text"
-            placeholder="Enter Tracking ID (e.g., TRK-12345)"
-            className="input input-bordered w-full bg-base-200 border-base-300 focus:ring-2 focus:ring-primary/60 outline-none"
-            value={trackingId}
-            onChange={(e) => setTrackingId(e.target.value)}
-            required
-          />
+        <form
+          onSubmit={handleTrack}
+          className="flex items-center gap-2 mb-12 max-w-2xl mx-auto"
+        >
+          <div className="relative flex flex-col sm:flex-row items-center bg-base-100/50 backdrop-blur-sm p-2 rounded-l-full shadow-lg border border-primary/80 group focus-within:ring-2 focus-within:ring-primary transition-all duration-300 w-full">
+            <PackageSearch className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral" />
+            <input
+              type="text"
+              placeholder="e.g., TRK-12345"
+              className="w-full sm:w-auto grow bg-transparent sm:pl-12 px-4 py-1 text-base-content  placeholder:text-neutral outline-none text-center sm:text-left"
+              value={trackingId}
+              onChange={(e) => setTrackingId(e.target.value)}
+              required
+            />
+          </div>
+
           <button
             type="submit"
-            className="btn btn-primary px-8"
+            className="btn btn-primary px-6 btn-lg rounded-r-full"
             disabled={loading}
           >
             {loading ? (
@@ -82,7 +91,7 @@ export default function Tracking() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-base-200 p-8 rounded-box shadow-inner"
+              className="bg-base-100/50 border-base-300 p-8 rounded-box shadow-inner"
             >
               <div className="flex justify-between items-center mb-8">
                 <div>

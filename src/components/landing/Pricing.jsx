@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Crown, Rocket, Zap } from "lucide-react";
 const AnimatedPrice = ({ price }) => {
   return (
     <motion.span
@@ -50,47 +51,53 @@ const Pricing = () => {
   }, [isMonthly]);
   const pricingTiers = [
     {
-      name: "Basic",
-      monthlyPrice: "$19",
-      yearlyPrice: "$199",
+      name: "Starter",
+      icon: <Rocket className="text-blue-500" size={24} />,
+      monthlyPrice: "$0",
+      yearlyPrice: "$0",
+      description: "Basic access for personal use and individuals.",
       features: [
-        "5 Projects",
-        "10 GB Storage",
-        "Basic Analytics",
-        "Community Support",
-        "Custom Domains",
+        "Up to 5 Items Management",
+        "Single Profile Access",
+        "Basic Dashboard View",
+        "Standard Email Support",
+        "Public Portfolio Link",
       ],
-      buttonText: "Get Started",
+      buttonText: "Join for Free",
       isPopular: false,
     },
     {
-      name: "Pro",
-      monthlyPrice: "$49",
-      yearlyPrice: "$499",
+      name: "Professional",
+      icon: <Zap className="text-rose-500" size={24} />,
+      monthlyPrice: "$19",
+      yearlyPrice: "$190",
+      description: "Comprehensive tools for power users and freelancers.",
       features: [
-        "Unlimited Projects",
-        "50 GB Storage",
-        "Advanced Analytics",
-        "Priority Email Support",
-        "Custom Domains",
-        "Team Collaboration",
+        "Unlimited Items Management",
+        "Priority Dashboard Features",
+        "Custom Category Creation",
+        "Download as PDF/CSV",
+        "Premium Profile Themes",
+        "Priority Support",
       ],
-      buttonText: "Start Free Trial",
+      buttonText: "Go Pro Now",
       isPopular: true,
     },
     {
-      name: "Enterprise",
-      monthlyPrice: "$99",
-      yearlyPrice: "$999",
+      name: "Business",
+      icon: <Crown className="text-amber-500" size={24} />,
+      monthlyPrice: 49,
+      yearlyPrice: 490,
+      description: "Advanced features for teams and small businesses.",
       features: [
-        "All Pro Features",
-        "Unlimited Storage",
-        "Real-time Analytics",
-        "24/7 Phone Support",
+        "Everything in Pro",
+        "Multi-user Access (3 seats)",
+        "Advanced Analytics & Logs",
+        "Custom Branding/White-label",
+        "API Access (Upcoming)",
         "Dedicated Account Manager",
-        "SAML/SSO Integration",
       ],
-      buttonText: "Contact Sales",
+      buttonText: "Get Enterprise",
       isPopular: false,
     },
   ];
@@ -121,40 +128,30 @@ const Pricing = () => {
     },
   };
   return (
-    <div className="min-h-screen w-full relative overflow-hidden">
+    <div className="w-full relative overflow-hidden">
       {}
-      
-      {}
-      <div className="relative z-10 font-inter py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center min-h-screen">
+      <div className="relative z-10 font-inter flex items-center justify-center">
         <div className="max-w-7xl mx-auto w-full">
           <div className="text-center">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-base-content tracking-tight leading-tight">
-              Simple, Transparent Pricing
+            <h1 className="text-3xl sm:text-5xl lg:text-4xl font-bold text-base-content tracking-tight leading-tight">
+              Plans for Every Stage
             </h1>
             <p className="mt-4 text-lg text-neutral max-w-2xl mx-auto">
-              Choose the plan that&apos;s right for you. No hidden fees, no
-              surprises.
+              Simple, transparent pricing. No hidden fees. Choose the plan that
+              best fits your needs.
             </p>
           </div>
 
           {}
           <div className="mt-10 flex justify-center">
-            <div
-              className="relative flex items-center p-1 rounded-full border border-base-300"
-              style={{
-                background: "rgba(255, 255, 255, 0.8)",
-                backdropFilter: "blur(10px)",
-                WebkitBackdropFilter: "blur(10px)",
-                boxShadow: "none",
-              }}
-            >
+            <div className="relative flex items-center p-1 rounded-full border border-primary">
               <button
                 ref={monthlyButtonRef}
                 onClick={() => setIsMonthly(true)}
                 className={`relative z-10 py-2 px-6 rounded-full text-sm font-medium text-center transition-all duration-300 ${
                   isMonthly
-                    ? "text-base-content"
-                    : "text-base-300/60 hover:text-base-100"
+                    ? "text-white"
+                    : "text-base-content hover:text-primary"
                 }`}
               >
                 Monthly
@@ -164,24 +161,19 @@ const Pricing = () => {
                 onClick={() => setIsMonthly(false)}
                 className={`relative z-10 py-2 px-6 rounded-full text-sm font-medium text-center transition-all duration-300 flex items-center justify-center ${
                   !isMonthly
-                    ? "text-base-content"
-                    : "text-base-300/60 hover:text-base-100"
+                    ? "text-white"
+                    : "text-base-content hover:text-primary"
                 }`}
               >
                 Yearly
-                <span className="ml-2 px-2 py-0.5 bg-primary text-base-content text-xs font-bold rounded-full">
+                <span className="ml-2 px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">
                   20% off
                 </span>
               </button>
               {}
               {activeButtonWidth > 0 && (
                 <motion.div
-                  className="absolute inset-y-1 rounded-full shadow-md"
-                  style={{
-                    background: "rgba(202, 44, 72, 0.8)",
-                    backdropFilter: "blur(8px)",
-                    WebkitBackdropFilter: "blur(8px)",
-                  }}
+                  className="absolute inset-y-1 rounded-full shadow-md bg-primary"
                   initial={false}
                   animate={{
                     left: activeButtonLeft,
@@ -209,7 +201,7 @@ const Pricing = () => {
                 key={tier.name}
                 className={`relative flex flex-col p-8 rounded-xl border transition-all duration-300 ${
                   tier.isPopular
-                    ? "border-primary bg-base-100/60 "
+                    ? "border-primary/40 bg-base-100/50"
                     : "border-base-300 bg-base/80"
                 }`}
                 style={{
@@ -233,13 +225,21 @@ const Pricing = () => {
                 }}
               >
                 {tier.isPopular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-base-content text-xs font-semibold uppercase rounded-full shadow-md">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-white text-xs font-semibold uppercase rounded-full shadow-md">
                     Most Popular
                   </div>
                 )}
-                <h3 className="text-2xl font-bold text-base-content">
-                  {tier.name}
-                </h3>
+                <div className="mb-8">
+                  <div className="w-14 h-14 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-6 ring-1 ring-slate-100">
+                    {tier.icon}
+                  </div>
+                  <h3 className="text-2xl font-bold text-base-content">
+                    {tier.name}
+                  </h3>
+                  <p className="text-sm text-neutral leading-relaxed font-medium">
+                    {tier.description}
+                  </p>
+                </div>
                 <div className="mt-4 flex items-baseline">
                   <span className="text-5xl font-extrabold text-base-content">
                     <AnimatedPrice
@@ -259,11 +259,11 @@ const Pricing = () => {
                     "Tailored for large organizations with specific needs."}
                 </p>
 
-                <ul role="list" className="mt-8 space-y-3 flex-grow">
+                <ul role="list" className="mt-8 space-y-3 grow">
                   {tier.features.map((feature) => (
                     <li key={feature} className="flex items-start">
                       <svg
-                        className="flex-shrink-0 h-5 w-5 text-primary mt-1"
+                        className="shrink-0 h-5 w-5 text-primary mt-1"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -273,9 +273,7 @@ const Pricing = () => {
                       >
                         <polyline points="20 6 9 17 4 12"></polyline>
                       </svg>
-                      <p className="ml-3 text-base text-neutral">
-                        {feature}
-                      </p>
+                      <p className="ml-3 text-base text-neutral">{feature}</p>
                     </li>
                   ))}
                 </ul>
@@ -284,8 +282,8 @@ const Pricing = () => {
                   <motion.button
                     className={`w-full py-2 px-4 rounded-md text-base font-medium shadow-sm transition-all duration-300 inline-flex items-center justify-center border ${
                       tier.isPopular
-                        ? "bg-primary text-base-content border-primary hover:bg-primary/80"
-                        : "bg-base-100 text-primary border-primary/30 hover:bg-primary/10"
+                        ? "bg-primary text-white border-primary hover:bg-primary/80"
+                        : "bg-primary/10 text-primary border-primary/30 hover:text-white hover:bg-primary"
                     }`}
                     style={{
                       backdropFilter: "blur(5px)",

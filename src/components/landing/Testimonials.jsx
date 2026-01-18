@@ -3,65 +3,93 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import TestimonialsCard from "../shared/TestimonialsCard";
 import FadeIn from "../motion/FadeIn";
+import TestimonialsCard from "../shared/TestimonialsCard";
 
 const cardData = [
   {
     id: 1,
-    imageUrl:
-      "https://i.pinimg.com/736x/d6/8a/12/d68a121e960094f99ad8acd37505fb7d.jpg",
-    title: "Crimson Forest",
+    name: "Alex Thompson",
+    role: "Senior Full Stack Developer",
+    image: "https://i.pravatar.cc/150?u=alex",
+    content:
+      "This platform has completely transformed how I manage my projects. The UI is incredibly intuitive and the performance is top-notch. Highly recommended for any serious developer.",
+    rating: 5,
   },
   {
     id: 2,
-    imageUrl:
-      "https://i.pinimg.com/736x/21/16/f7/2116f71f9d51d875e44d809f074ff079.jpg",
-    title: "Misty Mountains",
+    name: "Sarah Jenkins",
+    role: "Digital Marketing Manager",
+    image: "https://i.pravatar.cc/150?u=sarah",
+    content:
+      "The best management tool I've used this year. It's clean, fast, and does exactly what it promises. The dashboard analytics have been a game-changer for our team.",
+    rating: 5,
   },
   {
     id: 3,
-    imageUrl:
-      "https://i.pinimg.com/1200x/fe/c2/0d/fec20d2958059b8463bffb138d4eaac6.jpg",
-    title: "Floating Islands",
+    name: "Michael Chen",
+    role: "Freelance UI/UX Designer",
+    image: "https://i.pravatar.cc/150?u=michael",
+    content:
+      "I've tried many similar tools, but the user experience here is on another level. It's rare to find a tool that balances power and simplicity so perfectly.",
+    rating: 4,
   },
   {
     id: 4,
-    imageUrl:
-      "https://i.pinimg.com/736x/84/dc/62/84dc62de850a34a9d420c97f3a2d58f4.jpg",
-    title: "Crystal Cave",
+    name: "Emily Rodriguez",
+    role: "Product Owner",
+    image: "https://i.pravatar.cc/150?u=emily",
+    content:
+      "Everything is so organized! I love how I can customize my categories and items. It has saved me hours of administrative work every single week.",
+    rating: 5,
   },
   {
     id: 5,
-    imageUrl:
-      "https://i.pinimg.com/1200x/be/c3/7e/bec37e2c43e703f922f887db2578ce2e.jpg",
-    title: "Sunset Peaks",
+    name: "David Wilson",
+    role: "Tech Entrepreneur",
+    image: "https://i.pravatar.cc/150?u=david",
+    content:
+      "Scalability was my main concern, but this platform handles everything effortlessly. The Pro features are definitely worth the investment for growing businesses.",
+    rating: 5,
   },
   {
     id: 6,
-    imageUrl:
-      "https://i.pinimg.com/736x/47/dd/47/47dd47b0d66c2fa641e03e370bcb5433.jpg",
-    title: "Night Sky",
+    name: "Jessica Lee",
+    role: "Creative Director",
+    image: "https://i.pravatar.cc/150?u=jessica",
+    content:
+      "The visual presentation of the data is beautiful. It makes it so much easier to present my project progress to clients. Truly a professional-grade tool.",
+    rating: 5,
   },
   {
     id: 7,
-    imageUrl:
-      "https://i.pinimg.com/736x/05/01/bc/0501bcd327d9df915e83154bbf9456e3.jpg",
-    title: "Ancient Ruins",
+    name: "Robert Taylor",
+    role: "Software Architect",
+    image: "https://i.pravatar.cc/150?u=robert",
+    content:
+      "The API integration and the overall architecture are very impressive. It's clear that a lot of thought went into building this system. Very stable.",
+    rating: 4,
   },
   {
     id: 8,
-    imageUrl:
-      "https://i.pinimg.com/736x/c1/46/be/c146bebffca026d2c4fa76cc85aac917.jpg",
-    title: "Magical Tree",
+    name: "Sophia Martinez",
+    role: "Content Strategist",
+    image: "https://i.pravatar.cc/150?u=sophia",
+    content:
+      "Customer support is exceptional. I had a small issue with my account and it was resolved within minutes. Great product with a great team behind it.",
+    rating: 5,
   },
   {
     id: 9,
-    imageUrl:
-      "https://i.pinimg.com/736x/91/7a/51/917a51df0d444def3cade8d626305a67.jpg",
-    title: "Celestial Waters",
+    name: "James Anderson",
+    role: "Project Coordinator",
+    image: "https://i.pravatar.cc/150?u=james",
+    content:
+      "Finally, a tool that doesn't feel bloated! It’s streamlined, efficient, and help us keep track of everything without any unnecessary complexity.",
+    rating: 5,
   },
 ];
+
 export default function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(
     Math.floor(cardData.length / 2)
@@ -102,12 +130,12 @@ export default function Testimonials() {
     }
   };
   return (
-    <section className="w-full flex-col items-center justify-center font-sans overflow-hidden bg-base-100/40">
+    <section className="w-full flex-col items-center justify-center font-sans overflow-hidden">
       <FadeIn>
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Testimonials</h2>
+        <div className="text-center mb-10">
+          <h2 className="text-4xl font-bold mb-4">Trusted by Professionals</h2>
           <p className="text-neutral max-w-2xl mx-auto">
-            We provide end-to-end logistics solutions tailored to your needs.
+            Hear from our community of creators and developers worldwide.
           </p>
         </div>
       </FadeIn>
@@ -116,8 +144,8 @@ export default function Testimonials() {
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        <div className="relative flex w-full flex-col rounded-3xl border border-base-300 bg-base-100 p-4 pt-6 md:p-6">
-          <div className="relative w-full h-70 md:h-100 flex items-center justify-center overflow-hidden pt-12">
+        <div className="relative flex w-full flex-col rounded-3xl">
+          <div className="relative w-full h-100 md:h-120 flex items-center justify-center overflow-hidden">
             <motion.div
               className="w-full h-full flex items-center justify-center"
               drag="x"
@@ -128,10 +156,10 @@ export default function Testimonials() {
               dragElastic={0.2}
               onDragEnd={onDragEnd}
             >
-              {cardData.map((card, index) => (
+              {cardData.map((item, index) => (
                 <TestimonialsCard
-                  key={card.id}
-                  card={card}
+                  key={item.id}
+                  item={item}
                   index={index}
                   activeIndex={activeIndex}
                   totalCards={cardData.length}
@@ -140,10 +168,10 @@ export default function Testimonials() {
             </motion.div>
           </div>
 
-          <div className="flex items-center justify-center gap-6 mt-6">
+          <div className="flex items-center justify-center gap-6">
             <button
               onClick={() => changeSlide(activeIndex - 1)}
-              className="p-2 rounded-full bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 border border-gray-300 dark:border-white/10 text-gray-700 dark:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="p-2 rounded-full bg-base-100/50 hover:bg-base-300 border border-primary text-neutral transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
@@ -155,8 +183,8 @@ export default function Testimonials() {
                   onClick={() => changeSlide(index)}
                   className={`h-2 rounded-full transition-all duration-300 focus:outline-none ${
                     activeIndex === index
-                      ? "w-6 bg-pink-400"
-                      : "w-2 bg-gray-300 dark:bg-neutral-600 hover:bg-gray-400 dark:hover:bg-neutral-500"
+                      ? "w-6 bg-primary"
+                      : "w-2 bg-neutral/20 hover:bg-primary/50"
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
@@ -165,7 +193,7 @@ export default function Testimonials() {
 
             <button
               onClick={() => changeSlide(activeIndex + 1)}
-              className="p-2 rounded-full bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 border border-gray-300 dark:border-white/10 text-gray-700 dark:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="p-2 rounded-full bg-base-100 hover:bg-base-300 border text-neutral border-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <ChevronRight className="w-6 h-6" />
             </button>

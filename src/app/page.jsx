@@ -10,14 +10,16 @@ import NewsletterSection from "@/components/landing/Newsletter";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="bg-base-100/40 space-y-20">
       <Hero />
-      <Tracking />
-      <Services />
-      <Features />
-      <NewsletterSection />
-      <Pricing />
-      <Testimonials />
+      <div className="space-y-20 px-4">
+        <Tracking />
+        <Services />
+        <Features />
+        <NewsletterSection />
+        <Pricing />
+        <Testimonials />
+      </div>
     </div>
   );
 }
