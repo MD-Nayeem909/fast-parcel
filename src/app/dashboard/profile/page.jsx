@@ -1,5 +1,5 @@
 "use client";
-import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
 import {
   User,
   Mail,
@@ -11,12 +11,18 @@ import {
   Package,
   Calendar,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function ProfilePage() {
-  const { data: session } = useSession();
-
-  const user = session?.user;
+  const { data: user, isLoading } = useQuery({
+    queryKey: ["user-profile"],
+    queryFn: async () => {
+      const res = await fetch("/api/users/me");
+      return res.json();
+    },
+  });
+  if (isLoading) return <div>Loading Profile...</div>;
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-700 pb-10">
@@ -28,11 +34,13 @@ export default function ProfilePage() {
             <div className="w-32 h-32 rounded-[2.5rem] bg-base-100 p-2 shadow-xl">
               <div className="w-full h-full rounded-4xl bg-base-200 overflow-hidden flex items-center justify-center">
                 {user?.image ? (
-                  <img
+                  <Image
                     src={
                       user?.image ||
                       "https://i.ibb.co/vz6mD2V/user-placeholder.png"
                     }
+                    width={128}
+                    height={128}
                     className="w-full h-full object-cover"
                     alt="Profile"
                     onError={(e) => {
@@ -156,12 +164,6 @@ export default function ProfilePage() {
               size={120}
               className="absolute -right-10 -bottom-10 text-neutral/10"
             />
-          </div>
-
-          <div className="bg-base-100/50 p-6 rounded-4xl border border-base-100 shadow-sm">
-            <button className="btn btn-outline btn-error w-full rounded-2xl font-bold">
-              Logout Account
-            </button>
           </div>
         </div>
       </div>

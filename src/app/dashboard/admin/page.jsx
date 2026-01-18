@@ -2,7 +2,6 @@
 
 import { useQuery } from "@tanstack/react-query";
 import {
-  Users,
   Package,
   Truck,
   DollarSign,

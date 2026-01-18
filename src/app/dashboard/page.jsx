@@ -14,7 +14,14 @@ import {
 } from "lucide-react";
 
 export default function DashboardPage() {
-  const { data: authData, isLoading } = useQuery({ queryKey: ["auth"] });
+  const { data: authData, isLoading } = useQuery({
+    queryKey: ["auth"],
+    queryFn: async () => {
+      const res = await fetch("/api/auth/session");
+      if (!res.ok) throw new Error("Failed to fetch session");
+      return res.json();
+    },
+  });
   const user = authData?.user;
 
   if (isLoading)
@@ -26,7 +33,6 @@ export default function DashboardPage() {
         </p>
       </div>
     );
-    
 
   if (!user) return null;
 
