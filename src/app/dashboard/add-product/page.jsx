@@ -106,6 +106,7 @@ const AddProduct = () => {
           </label>
           <input
             type="number"
+            min={0}
             {...register("price", { required: "Price is required" })}
             className="input input-bordered w-full rounded-xl"
             placeholder="0.00"

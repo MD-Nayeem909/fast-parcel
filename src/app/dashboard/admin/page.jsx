@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/app/loading";
 import { useQuery } from "@tanstack/react-query";
 import {
   Package,
@@ -31,8 +32,8 @@ export default function AdminOverview() {
 
   if (isLoading)
     return (
-      <div className="p-10 text-center">
-        <span className="loading loading-lg text-primary"></span>
+      <div className="">
+        <Loading />
       </div>
     );
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import Link from "next/link";
 import ProductSkeleton from "../ui/ProductSkeleton";
+import Loading from "@/app/loading";
 
 const FeaturedProducts = () => {
   const [products, setProducts] = useState([]);
@@ -24,15 +25,15 @@ const FeaturedProducts = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
+      <div>
+        <Loading />
       </div>
     );
   }
   return (
     <section id="products" className="max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-        <div className="flex flex-col gap-2 items-center justify-center">
+        <div className="flex flex-col gap-2">
           <h2 className="text-3xl sm:text-5xl lg:text-4xl font-bold text-base-content tracking-tight leading-tight">
             Explore Our <span className="text-primary italic">Featured</span>{" "}
             Products
@@ -50,12 +51,14 @@ const FeaturedProducts = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {loading
-          ? [...Array(8)].map((_, i) => <ProductSkeleton key={i} />)
-          : products.map((product, index) => (
-              <ProductCard key={index} product={product} />
-            ))}
+          ? [...Array(6)].map((_, i) => <ProductSkeleton key={i} />)
+          : products
+              .slice(0, 6)
+              .map((product, index) => (
+                <ProductCard key={index} product={product} />
+              ))}
       </div>
-      {products.length === 0 && (
+      {!loading && products.length === 0 && (
         <div className="col-span-full py-20 text-center bg-base-100/50 rounded-[3rem] border-2 border-base-100">
           <p className="text-neutral font-bold">
             No products available at the moment.

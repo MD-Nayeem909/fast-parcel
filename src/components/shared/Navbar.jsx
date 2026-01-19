@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Sun, Moon, Menu, X, LogIn } from "lucide-react";
+import { Sun, Moon, Menu, X, LogIn, LogOut } from "lucide-react";
 import Logo from "./Logo";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "@/provider/ThemeProvider";
 import ProfileDropdown from "./ProfileDropdown";
 
@@ -56,11 +56,13 @@ const Navbar = () => {
   const user = session?.user;
 
   const navLinks = [
-    { href: "/", text: "Home" },
-    { href: "products", text: "All Products" },
-    { href: "dashboard/my-products", text: "My Products" },
-    { href: "/dashboard", text: "Dashboard" },
+    { href: "/", text: "Home", public: true },
+    { href: "/products", text: "All Products", public: true },
+    { href: "/dashboard/my-products", text: "My Products", public: false },
+    { href: "/dashboard", text: "Dashboard", public: false },
   ];
+
+  const visibleLinks = navLinks.filter((link) => link.public || !!user);
 
   return (
     <motion.header
@@ -77,7 +79,7 @@ const Navbar = () => {
           <Logo />
           {}
           <nav className="hidden md:flex items-center space-x-4 lg:space-x-6 xl:space-x-8">
-            {navLinks.map((link) => (
+            {visibleLinks.map((link) => (
               <a
                 key={link.text}
                 href={link.href}
@@ -142,39 +144,54 @@ const Navbar = () => {
         {/* --- Responsive Mobile Menu --- */}
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+            isMenuOpen ? "max-h-125 opacity-100" : "max-h-0 opacity-0"
           }`}
         >
           <div className="py-4 border-t border-base-300">
             <div className="flex flex-col space-y-1">
-              {navLinks.map((link) => (
+              {/* Dynamic Nav Links */}
+              {visibleLinks.map((link) => (
                 <Link
                   key={link.text}
                   href={link.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="px-3 py-2.5 text-sm sm:text-base font-medium text-neutral rounded-md hover:bg-primary/5 hover:text-primary transition-colors"
+                  className="py-3 px-2 text-base font-bold text-neutral rounded-sm hover:bg-primary/5 hover:text-primary transition-colors"
                 >
                   {link.text}
                 </Link>
               ))}
 
-              <div className="pt-4 mt-2 border-t border-base-300 flex flex-col space-y-2">
-                <Link
-                  href="login"
-                  className="flex items-center justify-center space-x-2 px-3 py-2.5 text-sm font-medium border-2 border-base-300 rounded-md bg-base-200 hover:bg-base-100 transition-colors"
-                >
-                  <span>Login</span>
+              {user ? (
+                /* Logged In User Mobile View */
+                <div className="pt-4 mt-2 border-t border-base-100/50 flex flex-col space-y-2">
+                  <button
+                    onClick={() => signOut({ callbackUrl: "/login" })}
+                    className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold btn btn-error btn-outline rounded-sm transition-all"
+                  >
+                    <LogOut size={16} /> Sign Out
+                  </button>
+                </div>
+              ) : (
+                /* Guest Mobile View */
+                <div className="pt-4 mt-2 border-t border-base-300 flex flex-col space-y-2 px-2">
+                  <Link
+                    href="/login"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-bold border-2 border-base-100 rounded-xl bg-base-100 hover:bg-base-300 transition-all"
+                  >
+                    <span>Login</span>
+                    <LogIn size={16} className="text-primary" />
+                  </Link>
 
-                  <LogIn className="h-4 w-4" />
-                </Link>
-
-                <Link
-                  href="register"
-                  className="px-3 py-2.5 text-sm font-medium btn btn-primary rounded-md text-center transition-colors"
-                >
-                  Register
-                </Link>
-              </div>
+                  <Link
+                    href="/register"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="px-4 py-3 text-sm font-bold btn btn-primary rounded-sm text-center shadow-lg shadow-primary/20 transition-all"
+                  >
+                    Register Now
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

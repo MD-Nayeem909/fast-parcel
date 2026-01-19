@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, Eye, EyeOff, LockKeyhole, X } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 const validationRules = [
   {
     id: "length",
@@ -43,62 +43,33 @@ const ValidationItem = ({ isValid, text }) => (
     <span>{text}</span>
   </li>
 );
-const PasswordInput = ({ register }) => {
+const PasswordInput = ({ register, watch, errors }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState("");
-  const [validationState, setValidationState] = useState({
-    length: false,
-    number: false,
-    lowercase: false,
-    uppercase: false,
-    special: false,
-  });
-  const [isPristine, setIsPristine] = useState(true);
-  useEffect(() => {
-    if (password === "") {
-      setIsPristine(true);
-      setValidationState({
-        length: false,
-        number: false,
-        lowercase: false,
-        uppercase: false,
-        special: false,
-      });
-      return;
-    }
-    setIsPristine(false);
-
-    const newValidationState = {
-      length: validationRules
-        .find((r) => r.id === "length")
-        .regex.test(password),
-      number: validationRules
-        .find((r) => r.id === "number")
-        .regex.test(password),
-      lowercase: validationRules
-        .find((r) => r.id === "lowercase")
-        .regex.test(password),
-      uppercase: validationRules
-        .find((r) => r.id === "uppercase")
-        .regex.test(password),
-      special: validationRules
-        .find((r) => r.id === "special")
-        .regex.test(password),
-    };
-
-    setValidationState(newValidationState);
-  }, [password]);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const passwordValue = watch("password") || "";
+  const validationState = {
+    length: validationRules
+      .find((r) => r.id === "length")
+      .regex.test(passwordValue),
+    number: validationRules
+      .find((r) => r.id === "number")
+      .regex.test(passwordValue),
+    lowercase: validationRules
+      .find((r) => r.id === "lowercase")
+      .regex.test(passwordValue),
+    uppercase: validationRules
+      .find((r) => r.id === "uppercase")
+      .regex.test(passwordValue),
+    special: validationRules
+      .find((r) => r.id === "special")
+      .regex.test(passwordValue),
   };
 
   return (
-    <div className="w-full max-w-sm space-y-4">
+    <div className="w-full space-y-4">
       <div className="space-y-2">
         <p
           htmlFor="password"
-          className="font-semibold mb-2 text-md"
+          className="font-semibold text-neutral mb-2 text-md"
         >
           Password
         </p>
@@ -109,20 +80,21 @@ const PasswordInput = ({ register }) => {
           <input
             id="password"
             type={showPassword ? "text" : "password"}
-            value={password}
             {...register("password")}
-            onChange={(e) => setPassword(e.target.value)}
             placeholder="Create a strong password"
             className="w-full pl-10 pr-3 py-3 border border-base-300 rounded-lg bg-base-100 text-base-content placeholder-neutral focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-transparent transition-all duration-200"
           />
           <button
             type="button"
-            onClick={togglePasswordVisibility}
+            onClick={() => setShowPassword(!showPassword)}
             className="absolute inset-y-0 right-0 flex items-center pr-3 text-neutral hover:text-base-content transition-colors"
             aria-label="Toggle password visibility"
           >
             {showPassword ? (
-              <EyeOff size={16} className="text-neutral/60 hover:text-neutral" />
+              <EyeOff
+                size={16}
+                className="text-neutral/60 hover:text-neutral"
+              />
             ) : (
               <Eye size={16} className="text-neutral/60 hover:text-neutral" />
             )}
@@ -130,17 +102,10 @@ const PasswordInput = ({ register }) => {
         </div>
       </div>
 
-      {password && (
-        <div className="space-y-3">
-          <div className="flex justify-between items-center">
-            <h3 className="text-sm font-medium">Password requirements:</h3>
-            {isPristine && (
-              <p className="text-xs text-muted-foreground">
-                Enter a password to check
-              </p>
-            )}
-          </div>
-          <ul className="space-y-2">
+      {passwordValue && (
+        <div className="p-4 bg-base-200/50 rounded-xl space-y-3">
+          <h3 className="text-sm font-bold">Password requirements:</h3>
+          <ul className="grid grid-cols-1 gap-2">
             {validationRules.map((rule) => (
               <ValidationItem
                 key={rule.id}

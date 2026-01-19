@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import { LayoutDashboard, User, Settings, LogOut } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 // --- Sub-Components ---
 
