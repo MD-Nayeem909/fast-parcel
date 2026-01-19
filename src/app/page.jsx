@@ -7,14 +7,16 @@ import Pricing from "@/components/landing/Pricing";
 import Testimonials from "@/components/landing/Testimonials";
 import Tracking from "@/components/landing/Tracking";
 import NewsletterSection from "@/components/landing/Newsletter";
+import FeaturedProducts from "@/components/landing/FeaturedProducts";
 
 export default function Home() {
   return (
-    <div className="bg-base-100/40 space-y-20">
+    <div className="bg-base-100/40 space-y-30">
       <Hero />
-      <div className="space-y-20 px-4">
+      <div className="space-y-30 px-4 pb-30">
         <Tracking />
         <Services />
+        <FeaturedProducts />
         <Features />
         <NewsletterSection />
         <Pricing />
