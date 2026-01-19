@@ -9,6 +9,7 @@ import {
   ArrowUpRight,
   Clock,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function AdminOverview() {
   const { data: parcels, isLoading } = useQuery({
@@ -107,9 +108,11 @@ export default function AdminOverview() {
         <div className="lg:col-span-2 bg-base-100 rounded-[2.5rem] border border-base-300 p-8">
           <div className="flex justify-between items-center mb-6">
             <h3 className="font-bold text-xl">Recent Shipments</h3>
-            <button className="btn btn-ghost btn-sm text-primary">
-              View All
-            </button>
+            <Link href="/dashboard/admin/all-parcels">
+              <button className="btn btn-ghost btn-sm text-primary">
+                View All
+              </button>
+            </Link>
           </div>
           <div className="space-y-4">
             {parcels?.slice(0, 5).map((parcel) => (

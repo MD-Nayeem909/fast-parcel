@@ -5,29 +5,37 @@ import {
   PackageCheck,
   Package,
   Users,
+  PlusCircle,
+  ListOrdered,
+  ShoppingBag,
   History,
   LogOut,
   Truck,
   X,
-  Menu,
 } from "lucide-react";
 import Logo from "../shared/Logo";
+import { useSession } from "next-auth/react";
 
-const Sidebar = ({ user, isOpen, setIsOpen }) => {
+const Sidebar = ({ isOpen, setIsOpen }) => {
   const pathname = usePathname();
+  const { data: session } = useSession();
+  const userRole = session?.user?.role;
 
   const menuItems = {
     admin: [
       { name: "Overview", href: "/dashboard/admin", icon: LayoutDashboard },
+      { name: "All Products", href: "/dashboard/my-products", icon: Package },
+      { name: "Add Product", href: "/dashboard/add-product", icon: PlusCircle },
       {
         name: "All Parcels",
         href: "/dashboard/admin/all-parcels",
-        icon: Package,
+        icon: ListOrdered,
       },
       { name: "Manage Agents", href: "/dashboard/admin/users", icon: Users },
     ],
     agent: [
       { name: "Overview", href: "/dashboard/agent", icon: LayoutDashboard },
+      { name: "My Products", href: "/dashboard/my-products", icon: Package },
       { name: "My Tasks", href: "/dashboard/agent/tasks", icon: Truck },
       {
         name: "Delivery History",
@@ -59,7 +67,7 @@ const Sidebar = ({ user, isOpen, setIsOpen }) => {
     ],
   };
 
-  const currentMenu = menuItems[user?.role] || menuItems.customer;
+  const currentMenu = menuItems[userRole] || menuItems.customer;
 
   return (
     <aside
@@ -74,7 +82,7 @@ const Sidebar = ({ user, isOpen, setIsOpen }) => {
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden p-2 hover:bg-base-300 rounded-lg"
           >
-            {isOpen && <X size={24} /> }
+            {isOpen && <X size={24} />}
           </button>
         </div>
 
