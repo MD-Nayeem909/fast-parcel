@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 export default function EditProfilePage() {
   const { data: session, update } = useSession();
@@ -108,13 +107,11 @@ export default function EditProfilePage() {
         <div className="flex flex-col items-center mb-6">
           <div className="relative group w-32 h-32">
             <div className="w-full h-full rounded-[2.5rem] bg-base-100/50 overflow-hidden border-4 border-base-100 shadow-lg">
-              <Image
+              <img
                 src={
                   currentImageUrl ||
                   "https://i.ibb.co/vz6mD2V/user-placeholder.png"
                 }
-                width={128}
-                height={128}
                 className="w-full h-full object-cover"
                 alt="Preview"
                 onError={(e) => {

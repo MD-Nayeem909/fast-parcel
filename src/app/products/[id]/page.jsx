@@ -9,6 +9,7 @@ import {
   Truck,
   RefreshCcw,
   Tag,
+  Download,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -126,18 +127,29 @@ const ProductDetails = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href={`/checkout/${product._id}`}>
+            {isPurchased ? (
+              <div>
                 <button className="btn btn-primary btn-lg flex-1 rounded-2xl font-black shadow-xl shadow-primary/25 gap-2">
-                  <ShoppingCart size={20} /> Add to Cart
+                  <Download size={20} /> Download Invoice
                 </button>
-              </Link>
-              <Link href={`/checkout/${product._id}`}>
-                <button className="btn btn-outline btn-secondary btn-lg flex-1 rounded-2xl font-black border-2">
-                  Buy It Now
+                <button className="btn btn-outline btn-lg flex-1 rounded-2xl font-black border-2">
+                  Contact Support
                 </button>
-              </Link>
-            </div>
+              </div>
+            ) : (
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href={`/checkout/${product._id}`}>
+                  <button className="btn btn-primary btn-lg flex-1 rounded-2xl font-black shadow-xl shadow-primary/25 gap-2">
+                    <ShoppingCart size={20} /> Add to Cart
+                  </button>
+                </Link>
+                <Link href={`/checkout/${product._id}`}>
+                  <button className="btn btn-outline btn-secondary btn-lg flex-1 rounded-2xl font-black border-2">
+                    Buy It Now
+                  </button>
+                </Link>
+              </div>
+            )}
 
             <p className="mt-8 text-center md:text-left text-neutral text-sm font-medium italic">
               * Secure payment and 100% satisfaction guaranteed.
