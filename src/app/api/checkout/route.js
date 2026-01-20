@@ -44,12 +44,12 @@ export async function POST(req) {
       mode: "payment",
       metadata: {
         userId: session.user.id,
-        productId: product._id,
-        price: product.price,
+        productId: product._id.toString(),
+        price: product.price.toString(),
       },
-      success_url: `${req.headers.get(
-        "origin"
-      )}/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${req.headers.get("origin")}/success?productId=${
+        product._id
+      }&price=${product.price}`,
       cancel_url: `${req.headers.get("origin")}/product/${product._id}`,
     });
 

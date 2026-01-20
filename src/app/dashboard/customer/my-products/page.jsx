@@ -11,9 +11,6 @@ const CustomerProducts = () => {
   const [purchasedItems, setPurchasedItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log(purchasedItems);
-  
-
   useEffect(() => {
     const fetchPurchases = async () => {
       if (!session?.user?.id) return;
@@ -31,8 +28,6 @@ const CustomerProducts = () => {
 
     fetchPurchases();
   }, [session]);
-
-  
 
   if (loading)
     return (
@@ -52,10 +47,10 @@ const CustomerProducts = () => {
         </p>
       </div>
 
-      {purchasedItems?.length === 0 ? (
+      {purchasedItems?.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {purchasedItems.map((item) => (
-            <OrderCard key={item._id} order={item} />
+          {purchasedItems.map((order) => (
+            <OrderCard key={order._id} order={order} />
           ))}
         </div>
       ) : (

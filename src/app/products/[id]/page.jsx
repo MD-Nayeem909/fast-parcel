@@ -10,10 +10,10 @@ import {
   RefreshCcw,
   Download,
 } from "lucide-react";
-import Link from "next/link";
-// import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import Button from "@/components/ui/Button";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -22,18 +22,22 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [isAddToCartLoading, setIsAddToCartLoading] = useState(false);
+  const { data: session, status } = useSession();
 
-  // const { data: orders } = useQuery({
-  //   queryKey: ["my-orders"],
-  //   queryFn: async () => {
-  //     const res = await fetch("/api/orders/my-orders");
-  //     return res.json();
-  //   },
-  // });
+  const { data: orders } = useQuery({
+    queryKey: ["my-orders", session?.user?.id],
+    queryFn: async () => {
+      if (!session?.user?.id) return [];
+      const res = await fetch(`/api/orders/user/${session.user.id}`);
+      if (!res.ok) return [];
+      return res.json();
+    },
+    enabled: !!session?.user?.id && status === "authenticated",
+  });
 
-  // const isPurchased = orders?.some((order) => order.productId === id);
-
-  const isPurchased = false;
+  const isPurchased = orders?.some(
+    (order) => (order.productId?._id || order.productId) === id
+  );
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -175,11 +179,11 @@ const ProductDetails = () => {
 
             {/* Action Buttons */}
             {isPurchased ? (
-              <div>
-                <button className="btn btn-primary btn-lg flex-1 rounded-2xl font-black shadow-xl shadow-primary/25 gap-2">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button className="btn btn-primary btn-lg flex-1 rounded-2xl font-bold shadow-xl shadow-primary/25 gap-2">
                   <Download size={20} /> Download Invoice
                 </button>
-                <button className="btn btn-outline btn-lg flex-1 rounded-2xl font-black border-2">
+                <button className="btn btn-outline btn-lg flex-1 rounded-2xl font-bold border-2 border-base-100 hover:bg-base-300">
                   Contact Support
                 </button>
               </div>

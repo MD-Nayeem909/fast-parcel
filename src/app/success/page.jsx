@@ -3,8 +3,34 @@
 import Link from "next/link";
 import { CheckCircle, Package, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 export default function SuccessPage() {
+  const searchParams = useSearchParams();
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    const saveOrder = async () => {
+      const productId = searchParams.get("productId");
+      const price = searchParams.get("price");
+
+      if (session?.user?.id && productId) {
+        await fetch("/api/orders/create", {
+          method: "POST",
+          body: JSON.stringify({
+            userId: session.user.id,
+            productId,
+            price: parseFloat(price),
+          }),
+        });
+        console.log("Order Saved Successfully!");
+      }
+    };
+
+    if (session) saveOrder();
+  }, [session, searchParams]);
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-100 px-4">
       <motion.div

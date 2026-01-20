@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import connectDB from "@/lib/db";
 import Order from "@/models/Order";
+import dbConnect from "@/lib/db";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -22,7 +22,7 @@ export async function POST(req) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
 
-    await connectDB();
+    await dbConnect();
 
     const { userId, productId, price } = session.metadata;
 

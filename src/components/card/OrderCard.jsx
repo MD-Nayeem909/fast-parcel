@@ -1,6 +1,7 @@
 import React from "react";
 import { Calendar, ExternalLink, Tag } from "lucide-react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const OrderCard = ({ order }) => {
   return (
@@ -38,9 +39,11 @@ const OrderCard = ({ order }) => {
         </div>
 
         <div className="card-actions justify-end">
-          <button className="btn btn-primary btn-sm rounded-xl font-bold">
-            Details <ExternalLink size={14} />
-          </button>
+          <Link href={`/products/${order.productId?._id}`}>
+            <button className="btn btn-primary btn-sm rounded-xl font-bold">
+              Details <ExternalLink size={14} />
+            </button>
+          </Link>
         </div>
       </div>
     </motion.div>
