@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const Loading = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-base-100/50">
+    <div className="min-h-screen flex flex-col items-center justify-center">
       <div className="relative flex items-center justify-center">
         {/* Outer Rotating Circle */}
         <motion.div

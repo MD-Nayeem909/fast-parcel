@@ -8,16 +8,32 @@ import {
   ShieldCheck,
   Truck,
   RefreshCcw,
-  Tag,
   Download,
 } from "lucide-react";
 import Link from "next/link";
+// import { useQuery } from "@tanstack/react-query";
+import Button from "@/components/ui/Button";
+import toast from "react-hot-toast";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const router = useRouter();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  const [isAddToCartLoading, setIsAddToCartLoading] = useState(false);
+
+  // const { data: orders } = useQuery({
+  //   queryKey: ["my-orders"],
+  //   queryFn: async () => {
+  //     const res = await fetch("/api/orders/my-orders");
+  //     return res.json();
+  //   },
+  // });
+
+  // const isPurchased = orders?.some((order) => order.productId === id);
+
+  const isPurchased = false;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -33,6 +49,37 @@ const ProductDetails = () => {
     };
     if (id) fetchProduct();
   }, [id]);
+
+  const handleCheckout = async () => {
+    setIsCheckoutLoading(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ product: product }),
+      });
+
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("No checkout URL received");
+        setIsCheckoutLoading(false);
+      }
+    } catch (error) {
+      console.error("Stripe Checkout Error:", error);
+      setIsCheckoutLoading(false);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    setIsAddToCartLoading(true);
+    setTimeout(() => {
+      setIsAddToCartLoading(false);
+      toast.success("Product added to cart!");
+    }, 3000);
+  };
 
   if (loading)
     return (
@@ -69,13 +116,13 @@ const ProductDetails = () => {
             className="relative aspect-square rounded-[2.5rem] overflow-hidden bg-slate-100 shadow-inner"
           >
             <img
-              src={product.image}
-              alt={product.title}
+              src={product?.image}
+              alt={product?.title}
               className="w-full h-full object-cover"
             />
             <div className="absolute top-6 left-6">
               <span className="badge badge-primary p-4 font-bold rounded-full shadow-lg shadow-primary/20 uppercase tracking-widest text-[10px]">
-                {product.category}
+                {product?.category}
               </span>
             </div>
           </motion.div>
@@ -87,12 +134,12 @@ const ProductDetails = () => {
             className="flex flex-col justify-center"
           >
             <div className="mb-6">
-              <h1 className="text-4xl md:text-5xl font-black text-base-content mb-4 leading-tight">
-                {product.title}
+              <h1 className="text-3xl md:text-5xl font-black text-base-content mb-4 leading-tight">
+                {product?.title}
               </h1>
               <div className="flex items-center gap-4 mb-6">
                 <span className="text-3xl font-black text-primary">
-                  ${product.price}
+                  ${product?.price}
                 </span>
                 <div className="h-6 w-px bg-neutral/50"></div>
                 <span className="text-neutral font-medium">
@@ -100,25 +147,25 @@ const ProductDetails = () => {
                 </span>
               </div>
               <p className="text-neutral leading-relaxed text-lg mb-8">
-                {product.description}
+                {product?.description}
               </p>
             </div>
 
             {/* Features/Trust Badges */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-              <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl">
-                <ShieldCheck className="text-emerald-500" size={24} />
-                <span className="text-xs font-bold text-slate-700">
+              <div className="flex items-center gap-3 p-4 bg-base-100 rounded-2xl">
+                <ShieldCheck className="text-success" size={24} />
+                <span className="text-xs font-bold text-base-content">
                   1 Year Warranty
                 </span>
               </div>
-              <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl">
-                <Truck className="text-blue-500" size={24} />
-                <span className="text-xs font-bold text-slate-700">
+              <div className="flex items-center gap-3 p-4 bg-base-100 rounded-2xl">
+                <Truck className="text-info" size={24} />
+                <span className="text-xs font-bold text-base-content">
                   Fast Shipping
                 </span>
               </div>
-              <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl">
+              <div className="flex items-center gap-3 p-4 bg-base-100 rounded-2xl">
                 <RefreshCcw className="text-warning" size={24} />
                 <span className="text-xs font-bold text-base-content">
                   Easy Returns
@@ -138,16 +185,22 @@ const ProductDetails = () => {
               </div>
             ) : (
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href={`/checkout/${product._id}`}>
-                  <button className="btn btn-primary btn-lg flex-1 rounded-2xl font-black shadow-xl shadow-primary/25 gap-2">
-                    <ShoppingCart size={20} /> Add to Cart
-                  </button>
-                </Link>
-                <Link href={`/checkout/${product._id}`}>
-                  <button className="btn btn-outline btn-secondary btn-lg flex-1 rounded-2xl font-black border-2">
-                    Buy It Now
-                  </button>
-                </Link>
+                <Button
+                  onClick={handleAddToCart}
+                  variant="primary"
+                  loading={isAddToCartLoading}
+                  className="flex-1"
+                >
+                  <ShoppingCart size={20} /> Add to Cart
+                </Button>
+                <Button
+                  onClick={handleCheckout}
+                  variant="secondary"
+                  loading={isCheckoutLoading}
+                  className="flex-1"
+                >
+                  Buy It Now
+                </Button>
               </div>
             )}
 
