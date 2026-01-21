@@ -157,7 +157,7 @@ export default function CustomerOverview() {
               Recent Shipments
             </h3>
             <Link
-              href="/dashboard/my-parcels"
+              href="/dashboard/customer/my-parcels"
               className="btn btn-ghost btn-sm text-primary font-bold"
             >
               See All
