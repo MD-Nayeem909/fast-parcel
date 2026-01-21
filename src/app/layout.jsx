@@ -7,6 +7,7 @@ import GlobalBackground from "@/components/shared/GlobalBackground";
 import ThemeProvider from "@/provider/ThemeProvider";
 import NavbarWrapper from "@/components/shared/NavbarWrapper";
 import BackToTop from "@/components/shared/BackToTop";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,6 +43,7 @@ const RootLayout = ({ children }) => {
             <footer>
               <Footer />
             </footer>
+            <SpeedInsights />
             <Script
               src="https://upload-widget.cloudinary.com/global/all.js"
               strategy="beforeInteractive"
