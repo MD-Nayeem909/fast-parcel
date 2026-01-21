@@ -30,8 +30,6 @@ export default function AdminParcelsPage() {
     },
   });
 
-
-
   const { data: agentsData } = useQuery({
     queryKey: ["agents"],
     queryFn: async () => {
@@ -57,6 +55,7 @@ export default function AdminParcelsPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["parcels"] });
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
       toast.success("Changes saved successfully!");
     },
     onError: (err) => toast.error(err.message),
@@ -82,7 +81,21 @@ export default function AdminParcelsPage() {
   };
 
   const handleUpdate = (id, field, value) => {
-    updateMutation.mutate({ id, data: { [field]: value } });
+    let payload = { [field]: value };
+
+    if (field === "assignedAgentId" && value) {
+      const selectedAgent = agentsData?.find((agent) => agent._id === value);
+
+      if (selectedAgent) {
+        payload = {
+          ...payload,
+          agentEmail: selectedAgent.email,
+          agentName: selectedAgent.name,
+          status: "in-transit",
+        };
+      }
+    }
+    updateMutation.mutate({ id, data: payload });
   };
 
   const filteredParcels = parcelsData?.filter(

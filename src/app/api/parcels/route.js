@@ -3,6 +3,7 @@ import dbConnect from "@/lib/db";
 import Parcel from "@/models/Parcel";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { Notification } from "@/models/Notification";
 
 // --- POST: Create Parcel ---
 export async function POST(req) {
@@ -50,6 +51,19 @@ export async function POST(req) {
     };
 
     const parcel = await Parcel.create(parcelData);
+
+    await Notification.create({
+      receiverRole: "admin",
+      message: `New parcel booked! Tracking ID: ${uniqueTrackingId} by ${session.user.name}`,
+      type: "info",
+    });
+
+    await Notification.create({
+      receiverRole: "customer",
+      receiverEmail: session.user.email,
+      message: `Your parcel (ID: ${uniqueTrackingId}) has been successfully booked.`,
+      type: "success",
+    });
 
     return NextResponse.json({ success: true, data: parcel }, { status: 201 });
   } catch (error) {

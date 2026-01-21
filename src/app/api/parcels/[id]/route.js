@@ -3,6 +3,7 @@ import dbConnect from "@/lib/db";
 import Parcel from "@/models/Parcel";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { Notification } from "@/models/Notification";
 
 export async function GET(req, { params }) {
   try {
@@ -65,6 +66,19 @@ export async function PUT(req, { params }) {
           note: body.note || `Status updated to ${body.status}`,
           timestamp: new Date(),
         });
+        await Notification.create({
+          receiverRole: "customer",
+          receiverEmail: parcel.senderInfo.email,
+          message: `Your parcel ${parcel.trackingId} status updated to: ${body.status}`,
+          type: "info",
+        });
+        if (body.status === "delivered") {
+          await Notification.create({
+            receiverRole: "admin",
+            message: `Agent ${user.name} has delivered parcel ${parcel.trackingId}`,
+            type: "success",
+          });
+        }
       }
     }
 
@@ -77,6 +91,14 @@ export async function PUT(req, { params }) {
           note: body.assignedAgentId ? "New agent assigned" : "Agent removed",
           timestamp: new Date(),
         });
+        if (body.assignedAgentId && body.agentEmail) {
+          await Notification.create({
+            receiverRole: "agent",
+            receiverEmail: body.agentEmail,
+            message: `New task! Parcel ${parcel.trackingId} has been assigned to you.`,
+            type: "info",
+          });
+        }
       }
       if (body.status) {
         parcel.status = body.status;
