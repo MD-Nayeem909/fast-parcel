@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Bell,
   CheckCircle,
@@ -13,9 +13,14 @@ import ProfileDropdown from "../shared/ProfileDropdown";
 import { useTheme } from "@/provider/ThemeProvider";
 import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
+import { motion } from "framer-motion";
 
 const DashNav = ({ user, isSidebarOpen, setSidebarOpen }) => {
   const { theme, toggleTheme } = useTheme();
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   const { data: notifications = [], refetch } = useQuery({
     queryKey: ["notifications", user?.role, user?.email],
@@ -49,8 +54,34 @@ const DashNav = ({ user, isSidebarOpen, setSidebarOpen }) => {
     }
   };
 
+  useEffect(() => {
+    const controlNavbar = () => {
+      const currentScrollY = window.scrollY;
+      if (isMenuOpen) return;
+      if (currentScrollY > lastScrollY && currentScrollY > 200) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+    window.addEventListener("scroll", controlNavbar);
+    return () => window.removeEventListener("scroll", controlNavbar);
+  }, [lastScrollY, isMenuOpen]);
+
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
+  }, [isMenuOpen]);
+
   return (
-    <header className="h-20 bg-base-100/50 backdrop-blur-md border-b border-base-300 sticky top-0 z-50 px-6 flex items-center justify-between">
+    <motion.header
+      initial={{ y: 0 }}
+      animate={{ y: isVisible || isMenuOpen ? 0 : -100 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className={`flex items-center w-full transition-all duration-300 sticky top-0 z-50 py-4 px-4 ${
+        isScrolled ? "bg-base-200/80 backdrop-blur-lg shadow-lg" : "bg-base-100"
+      } border-b border-base-300`}
+    >
       <button
         onClick={() => setSidebarOpen(!isSidebarOpen)}
         className="lg:hidden p-2 hover:bg-base-300 rounded-lg"
@@ -82,7 +113,8 @@ const DashNav = ({ user, isSidebarOpen, setSidebarOpen }) => {
 
             <ul
               tabIndex={0}
-              className="dropdown-content z-60 mt-4 p-2 shadow-2xl bg-base-100 border border-base-200 rounded-3xl w-80 max-h-96 overflow-y-auto"
+              className="dropdown-content z-60 mt-6 p-2 shadow-2xl bg-base-100 border border-base-200 rounded-3xl fixed left-1/2 -translate-x-1/2 w-[92vw] sm:absolute sm:left-auto sm:right-0 sm:translate-x-0 sm:w-80 
+             max-h-[70vh] overflow-y-auto font-sans"
             >
               <div className="px-4 py-3 border-b border-base-200 flex justify-between items-center">
                 <span className="font-black text-xs uppercase">
@@ -99,7 +131,7 @@ const DashNav = ({ user, isSidebarOpen, setSidebarOpen }) => {
                 notifications.map((note) => (
                   <li
                     key={note._id}
-                    className="p-4 hover:bg-base-200 rounded-2xl transition-colors cursor-pointer border-b border-base-100 last:border-0"
+                    className="p-4 hover:bg-base-200 rounded-sm transition-colors cursor-pointer border-b border-base-100 last:border-0"
                   >
                     <div className="flex gap-3">
                       <div
@@ -173,7 +205,7 @@ const DashNav = ({ user, isSidebarOpen, setSidebarOpen }) => {
           <ProfileDropdown />
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 };
 
