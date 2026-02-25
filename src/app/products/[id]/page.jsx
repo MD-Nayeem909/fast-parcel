@@ -15,6 +15,7 @@ import Button from "@/components/ui/Button";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useCart } from "@/provider/CartProvider";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -24,6 +25,7 @@ const ProductDetails = () => {
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [isAddToCartLoading, setIsAddToCartLoading] = useState(false);
   const { data: session, status } = useSession();
+  const { addToCart, openCart } = useCart();
 
   const { data: orders } = useQuery({
     queryKey: ["my-orders", session?.user?.id],
@@ -80,10 +82,13 @@ const ProductDetails = () => {
 
   const handleAddToCart = async () => {
     setIsAddToCartLoading(true);
+    if (product) {
+      addToCart(product);
+      openCart();
+    }
     setTimeout(() => {
       setIsAddToCartLoading(false);
-      toast.success("Product added to cart!");
-    }, 3000);
+    }, 500);
   };
 
   if (loading)

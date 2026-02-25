@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 import { ShoppingBag, ArrowUpRight, Tag } from "lucide-react";
 import Link from "next/link";
 
-const ProductCard = ({ product, key }) => {
+const ProductCard = ({ product, index }) => {
   return (
     <motion.div
       key={product?._id}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: key * 0.1 }}
+      transition={{ delay: (index || 0) * 0.1 }}
       className="group relative bg-base-100/50 rounded-[2.5rem] p-4 border border-transparent hover:border-base-200 hover:bg-base-100 transition-all duration-500 hover:shadow-2xl hover:shadow-base-200/50"
     >
       {/* Image Container */}

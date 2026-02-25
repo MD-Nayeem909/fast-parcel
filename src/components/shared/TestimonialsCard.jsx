@@ -61,7 +61,7 @@ const TestimonialsCard = ({ item, index, activeIndex, totalCards }) => {
             </div>
           </div>
           <p className="text-base-content text-center text-sm mb-3 italic">
-            "{item.content}"
+            &quot;{item.content}&quot;
           </p>
           <div className="flex items-center justify-center gap-1 mb-2">
             {[...Array(item.rating)].map((_, i) => (

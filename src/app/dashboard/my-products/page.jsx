@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
@@ -13,7 +13,7 @@ const MyProducts = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const fetchMyProducts = async () => {
+  const fetchMyProducts = useCallback(async () => {
     try {
       const res = await fetch("/api/products");
       const data = await res.json();
@@ -26,7 +26,7 @@ const MyProducts = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [session?.user?.email]);
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -35,7 +35,7 @@ const MyProducts = () => {
     if (status === "authenticated" && session?.user?.role === "customer") {
       router.push("/");
     }
-  }, [session, status, router]);
+  }, [session, status, router, fetchMyProducts]);
 
   const handleDelete = async (id) => {
     Swal.fire({

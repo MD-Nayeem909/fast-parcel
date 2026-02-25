@@ -55,7 +55,7 @@ const FeaturedProducts = () => {
           : products
               .slice(0, 6)
               .map((product, index) => (
-                <ProductCard key={index} product={product} />
+                <ProductCard key={index} index={index} product={product} />
               ))}
       </div>
       {!loading && products.length === 0 && (

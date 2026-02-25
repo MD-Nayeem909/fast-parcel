@@ -1,17 +1,19 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Sun, Moon, Menu, X, LogIn, LogOut } from "lucide-react";
+import { Sun, Moon, Menu, X, LogIn, LogOut, ShoppingBag } from "lucide-react";
 import Logo from "./Logo";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "@/provider/ThemeProvider";
+import { useCart } from "@/provider/CartProvider";
 import ProfileDropdown from "./ProfileDropdown";
 import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
+  const { getCartCount, isMounted, openCart } = useCart();
   const pathname = usePathname();
   const isActive = (path) => pathname === path;
 
@@ -150,6 +152,15 @@ const Navbar = () => {
               className="btn btn-ghost btn-circle btn-sm text-base-content"
             >
               {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+
+            <button onClick={openCart} className="btn btn-ghost btn-circle btn-sm text-base-content relative">
+              <ShoppingBag size={18} />
+              {isMounted && getCartCount() > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-primary-content">
+                  {getCartCount()}
+                </span>
+              )}
             </button>
 
             {user ? (
