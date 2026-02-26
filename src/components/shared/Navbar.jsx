@@ -1,18 +1,16 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Sun, Moon, Menu, X, LogIn, LogOut, ShoppingBag } from "lucide-react";
+import { Menu, X, LogIn, LogOut, ShoppingBag } from "lucide-react";
 import Logo from "./Logo";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { signOut, useSession } from "next-auth/react";
-import { useTheme } from "@/provider/ThemeProvider";
 import { useCart } from "@/provider/CartProvider";
 import ProfileDropdown from "./ProfileDropdown";
 import { usePathname } from "next/navigation";
 
 const Navbar = () => {
-  const { theme, toggleTheme } = useTheme();
   const { getCartCount, isMounted, openCart } = useCart();
   const pathname = usePathname();
   const isActive = (path) => pathname === path;
@@ -144,15 +142,9 @@ const Navbar = () => {
               </Link>
             ))}
           </nav>
-          {}
 
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={toggleTheme}
-              className="btn btn-ghost btn-circle btn-sm text-base-content"
-            >
-              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
+          {/* Right Side Icons */}
+          <div className="flex items-center space-x-2 sm:space-x-4">
 
             <button onClick={openCart} className="btn btn-ghost btn-circle btn-sm text-base-content relative">
               <ShoppingBag size={18} />
@@ -184,21 +176,19 @@ const Navbar = () => {
                 </Link>
               </div>
             )}
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 text-primary hover:bg-primary/10 rounded-md transition-colors ml-1"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? (
+                <X className="h-5 w-5 sm:h-6 sm:w-6" />
+              ) : (
+                <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
+              )}
+            </button>
           </div>
-
-          {}
-
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-primary hover:bg-primary/10 rounded-md transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? (
-              <X className="h-5 w-5 sm:h-6 sm:w-6" />
-            ) : (
-              <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
-            )}
-          </button>
         </div>
 
         {/* --- Responsive Mobile Menu --- */}

@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
-import { LayoutDashboard, User, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, User, Settings, LogOut, Sun, Moon } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
+import { useTheme } from "@/provider/ThemeProvider";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 
@@ -55,6 +56,7 @@ const DropdownMenuSeparator = () => <div className="my-2 h-px bg-base-300" />;
 // --- Main Component ---
 
 export default function ProfileDropdown() {
+  const { theme, toggleTheme } = useTheme();
   const { data: session, status } = useSession();
   const { data: dbUser, isLoading } = useQuery({
     queryKey: ["user-profile", session?.user?.email],
@@ -143,6 +145,15 @@ export default function ProfileDropdown() {
           >
             <Settings className="mr-3 h-4 w-4 opacity-70" />
             Settings
+          </DropdownMenuItem>
+
+          <DropdownMenuItem onClick={toggleTheme}>
+            {theme === "dark" ? (
+              <Sun className="mr-3 h-4 w-4 opacity-70" />
+            ) : (
+              <Moon className="mr-3 h-4 w-4 opacity-70" />
+            )}
+            {theme === "dark" ? "Light Mode" : "Dark Mode"}
           </DropdownMenuItem>
         </div>
 
