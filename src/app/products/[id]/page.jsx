@@ -16,6 +16,8 @@ import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useCart } from "@/provider/CartProvider";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -89,6 +91,76 @@ const ProductDetails = () => {
     setTimeout(() => {
       setIsAddToCartLoading(false);
     }, 500);
+  };
+
+  const handleDownloadInvoice = () => {
+    const currentOrder = orders?.find(
+      (order) => (order.productId?._id || order.productId) === id
+    );
+    if (!currentOrder || !product || !session?.user) {
+      toast.error("Could not generate invoice. Missing data.");
+      return;
+    }
+
+    const doc = new jsPDF();
+    
+    // Header
+    doc.setFontSize(22);
+    doc.setTextColor(40, 40, 40);
+    doc.text("INVOICE", 105, 20, { align: "center" });
+    
+    // Company Info
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text("FastParcel E-Commerce", 15, 30);
+    doc.text("contact@fastparcel.com", 15, 35);
+    
+    // Invoice Details
+    doc.setFontSize(12);
+    doc.setTextColor(0);
+    const invoiceNumber = `INV-${currentOrder._id.substring(0, 8).toUpperCase()}`;
+    doc.text(`Invoice No: ${invoiceNumber}`, 15, 50);
+    doc.text(`Date: ${new Date(currentOrder.createdAt).toLocaleDateString()}`, 15, 57);
+    
+    // Customer Info
+    doc.text(`Billed To:`, 140, 50);
+    doc.setFontSize(10);
+    doc.text(`${session.user.name || "Customer"}`, 140, 57);
+    doc.text(`${session.user.email || ""}`, 140, 62);
+
+    // Table
+    autoTable(doc, {
+      startY: 75,
+      head: [["Item Description", "Category", "Qty", "Price", "Total"]],
+      body: [
+        [
+          product.title,
+          product.category || "N/A",
+          "1",
+          `$${product.price.toFixed(2)}`,
+          `$${product.price.toFixed(2)}`
+        ]
+      ],
+      theme: "striped",
+      headStyles: { fillColor: [41, 128, 185] },
+    });
+    
+    // Totals
+    const finalY = doc.lastAutoTable.finalY || 90;
+    doc.setFontSize(12);
+    doc.text(`Subtotal: $${product.price.toFixed(2)}`, 140, finalY + 10);
+    doc.text(`Total Paid: $${product.price.toFixed(2)}`, 140, finalY + 16);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Status: Paid`, 140, finalY + 22);
+    
+    // Footer
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(150);
+    doc.text("Thank you for your purchase!", 105, doc.internal.pageSize.getHeight() - 20, { align: "center" });
+
+    doc.save(`Invoice_${currentOrder._id.substring(0, 8)}.pdf`);
+    toast.success("Invoice downloaded successfully!");
   };
 
   if (loading)
@@ -186,7 +258,10 @@ const ProductDetails = () => {
             {/* Action Buttons */}
             {isPurchased ? (
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="btn btn-primary btn-lg flex-1 rounded-2xl font-bold shadow-xl shadow-primary/25 gap-2">
+                <button 
+                  onClick={handleDownloadInvoice}
+                  className="btn btn-primary btn-lg flex-1 rounded-2xl font-bold shadow-xl shadow-primary/25 gap-2"
+                >
                   <Download size={20} /> Download Invoice
                 </button>
                 <Link 

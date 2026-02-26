@@ -33,7 +33,7 @@ export default function DashboardLayout({ children }) {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-base-100/50 flex font-sans">
+    <div className="min-h-screen bg-linear-to-br from-base-200 via-base-100 to-base-200 flex font-sans">
       {/* Sidebar Component */}
       <Sidebar user={user} isOpen={isSidebarOpen} setIsOpen={setSidebarOpen} />
 

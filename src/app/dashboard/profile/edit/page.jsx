@@ -123,8 +123,14 @@ export default function EditProfilePage() {
           </div>
         </div>
 
-        {/* Input Fields */}
-        <div className="bg-base-100/50 p-8 rounded-[3rem] border border-base-100 shadow-sm space-y-5">
+        {/* Input Fields Container */}
+        <div className="space-y-6">
+          
+          {/* Section 1: Personal Information */}
+          <div className="bg-base-100/60 backdrop-blur-xl p-8 rounded-[3rem] border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.05)] space-y-5">
+            <h3 className="text-xl font-black text-base-content flex items-center gap-2 mb-6 border-b border-base-content/5 pb-4">
+              <User size={20} className="text-primary" /> Personal Information
+            </h3>
           {/* Image URL Input */}
           <div className="form-control">
             <label className="label text-xs font-bold text-neutral mb-2">
@@ -174,40 +180,59 @@ export default function EditProfilePage() {
               />
             </div>
           </div>
-          {/* Password Field */}
-          <div className="form-control">
-            <label className="label text-xs font-black uppercase text-neutral mb-2">
-              New Password (Leave blank to keep same)
-            </label>
-            <div className="relative">
-              <LockKeyhole
-                className="absolute z-10 left-4 top-3 text-neutral"
-                size={18}
-              />
-              <input
-                type="password"
-                {...register("password")}
-                placeholder="••••••••"
-                className="input input-bordered w-full pl-12 rounded-2xl bg-base-100 border-none focus:ring-2 focus:ring-primary/60 font-bold outline-none"
-              />
+          </div>
+
+          {/* Section 2: Address Book */}
+          <div className="bg-base-100/60 backdrop-blur-xl p-8 rounded-[3rem] border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.05)] space-y-5">
+            <h3 className="text-xl font-black text-base-content flex items-center gap-2 mb-6 border-b border-base-content/5 pb-4">
+              <MapPin size={20} className="text-info" /> Address Management
+            </h3>
+            {/* Address Field */}
+            <div className="form-control">
+              <label className="label text-xs font-black uppercase text-neutral mb-2">
+                Home Address
+              </label>
+              <div className="relative">
+                <MapPin
+                  className="absolute left-4 top-4 z-10 text-neutral"
+                  size={18}
+                />
+                <textarea
+                  {...register("address")}
+                  placeholder="Enter your home address"
+                  className="textarea textarea-bordered input input-bordered w-full pl-12 py-4 rounded-2xl bg-base-100 border-none focus:ring-2 focus:ring-primary/60 font-bold outline-none min-h-25"
+                ></textarea>
+              </div>
             </div>
           </div>
-          {/* Address Field */}
-          <div className="form-control">
-            <label className="label text-xs font-black uppercase text-neutral mb-2">
-              Home Address
-            </label>
-            <div className="relative">
-              <MapPin
-                className="absolute left-4 top-4 z-10 text-neutral"
-                size={18}
-              />
-              <textarea
-                {...register("address")}
-                placeholder="Enter your home address"
-                className="textarea textarea-bordered input input-bordered w-full pl-12 py-4 rounded-2xl bg-base-100 border-none focus:ring-2 focus:ring-primary/60 font-bold outline-none min-h-25"
-              ></textarea>
+
+          {/* Section 3: Security */}
+          <div className="bg-linear-to-bl from-slate-900 to-slate-800 text-white p-8 rounded-[3rem] border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.15)] space-y-5 relative overflow-hidden">
+            <h3 className="text-xl font-black text-white flex items-center gap-2 mb-6 border-b border-white/10 pb-4 relative z-10">
+              <LockKeyhole size={20} className="text-error" /> Security Settings
+            </h3>
+            
+            <div className="form-control relative z-10">
+              <label className="label text-xs font-black uppercase text-white/70 mb-2 tracking-wider">
+                Change Password (Leave blank to keep same)
+              </label>
+              <div className="relative">
+                <LockKeyhole
+                  className="absolute z-10 left-4 top-3 text-white/50"
+                  size={18}
+                />
+                <input
+                  type="password"
+                  {...register("password")}
+                  placeholder="••••••••"
+                  className="input input-bordered w-full pl-12 rounded-2xl bg-white/5 border-white/10 focus:ring-2 focus:ring-error/60 font-medium outline-none text-white placeholder:text-white/30"
+                />
+              </div>
             </div>
+            <LockKeyhole
+              size={150}
+              className="absolute -right-10 -top-10 text-white/5 rotate-12"
+            />
           </div>
 
           <button

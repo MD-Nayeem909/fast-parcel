@@ -73,13 +73,13 @@ export default function ProfilePage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-16">
         {/* 2. Personal Information Card */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-base-100/50 p-8 rounded-[3rem] border border-base-200 shadow-sm">
-            <div className="flex justify-between items-center mb-8">
-              <h3 className="text-xl font-black text-base-content">
-                Personal Information
+          <div className="bg-base-100/60 backdrop-blur-xl p-8 rounded-[3rem] border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.05)] transition-all hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)]">
+            <div className="flex justify-between items-center mb-8 pb-4 border-b border-base-content/5">
+              <h3 className="text-xl font-black text-base-content flex items-center gap-2">
+                <User size={20} className="text-primary" /> Personal Information
               </h3>
               <Link href="/dashboard/profile/edit">
-                <button className="btn btn-ghost btn-sm rounded-xl gap-2 font-bold text-primary">
+                <button className="btn btn-primary btn-sm rounded-xl gap-2 font-bold shadow-lg shadow-primary/20">
                   <Edit3 size={16} /> Edit Profile
                 </button>
               </Link>
@@ -87,59 +87,68 @@ export default function ProfilePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="flex items-start gap-4">
-                <div className="p-3 bg-primary/20 rounded-2xl text-primary">
+                <div className="p-3 bg-primary/10 rounded-2xl text-primary ring-1 ring-primary/20">
                   <Mail size={20} />
                 </div>
                 <div>
-                  <p className="text-xs font-black text-neutral uppercase">
+                  <p className="text-xs font-black text-neutral uppercase tracking-wider mb-1">
                     Email Address
                   </p>
-                  <p className="font-bold text-base-content">{user?.email}</p>
+                  <p className="font-bold text-base-content truncate pr-4">{user?.email}</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <div className="p-3 bg-success/20 rounded-2xl text-success">
+                <div className="p-3 bg-success/10 rounded-2xl text-success ring-1 ring-success/20">
                   <Phone size={20} />
                 </div>
                 <div>
-                  <p className="text-xs font-black text-neutral uppercase">
+                  <p className="text-xs font-black text-neutral uppercase tracking-wider mb-1">
                     Phone Number
                   </p>
                   <p className="font-bold text-base-content">
-                    {user?.phone || "Not Updated"}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 md:col-span-2 border-t border-neutral/20 pt-6">
-                <div className="p-3 bg-info/20 rounded-2xl text-info">
-                  <MapPin size={20} />
-                </div>
-                <div>
-                  <p className="text-xs font-black text-neutral uppercase">
-                    Primary Address
-                  </p>
-                  <p className="font-bold text-base-content">
-                    {user?.address ||
-                      "Please add your primary delivery address"}
+                    {user?.phone || <span className="text-neutral/50 italic">Not set</span>}
                   </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Quick Account Summary */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="bg-primary/10 p-6 rounded-4xl border border-primary/10 text-center">
-              <Package size={24} className="mx-auto text-primary mb-2" />
-              <p className="text-2xl font-black text-base-content">12</p>
-              <p className="text-xs font-bold text-neutral uppercase">
-                Total Parcels
+          {/* Address Book Card */}
+          <div className="bg-base-100/60 backdrop-blur-xl p-8 rounded-[3rem] border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.05)] transition-all hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)]">
+            <div className="flex justify-between items-center mb-6 pb-4 border-b border-base-content/5">
+              <h3 className="text-xl font-black text-base-content flex items-center gap-2">
+                <MapPin size={20} className="text-info" /> Address Book
+              </h3>
+              <Link href="/dashboard/profile/edit">
+                <button className="btn btn-ghost btn-sm text-info hover:bg-info/10 rounded-xl gap-2 font-bold">
+                  Update
+                </button>
+              </Link>
+            </div>
+            
+            <div className="bg-base-200/50 rounded-3xl p-6 border border-base-content/5">
+              <div className="flex items-center gap-2 mb-2">
+                  <span className="badge badge-info badge-sm font-bold uppercase tracking-widest text-[9px]">Primary Delivery</span>
+              </div>
+              <p className="font-bold text-base-content leading-relaxed">
+                {user?.address || "No primary address added yet. Please update your profile to ensure smooth deliveries."}
               </p>
             </div>
-            <div className="bg-neutral/10 p-6 rounded-4xl border border-base-100 text-center">
+          </div>
+
+          {/* Quick Account Summary */}
+          <div className="grid grid-cols-2 gap-4 mt-6">
+            <div className="bg-primary/5 backdrop-blur-md p-6 rounded-4xl border border-primary/20 text-center hover:bg-primary/10 transition-colors">
+              <Package size={24} className="mx-auto text-primary mb-2" />
+              <p className="text-2xl font-black text-base-content">Active</p>
+              <p className="text-[10px] font-bold text-neutral uppercase tracking-widest mt-1">
+                Account Tier
+              </p>
+            </div>
+            <div className="bg-neutral/5 backdrop-blur-md p-6 rounded-4xl border border-neutral/20 text-center hover:bg-neutral/10 transition-colors">
               <Calendar size={24} className="mx-auto text-neutral mb-2" />
               <p className="text-2xl font-black text-base-content">2024</p>
-              <p className="text-[10px] font-bold text-neutral uppercase">
+              <p className="text-[10px] font-bold text-neutral uppercase tracking-widest mt-1">
                 Member Since
               </p>
             </div>
@@ -148,23 +157,35 @@ export default function ProfilePage() {
 
         {/* 3. Security & Account Status */}
         <div className="lg:col-span-1 space-y-6">
-          <div className="bg-slate-900 p-8 rounded-[3rem] text-white relative overflow-hidden">
-            <h3 className="text-xl font-bold mb-6">Account Status</h3>
+          <div className="bg-linear-to-b from-slate-900 to-slate-800 p-8 rounded-[3rem] text-white relative overflow-hidden shadow-2xl border border-white/10">
+            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+              <ShieldCheck size={20} className="text-success" /> Security & Status
+            </h3>
+            
             <div className="space-y-4 relative z-10">
-              <div className="flex justify-between items-center p-3 bg-white/10 rounded-2xl">
-                <span className="text-sm">Verified Profile</span>
-                <div className="badge badge-success badge-sm font-bold uppercase py-2">
-                  Active
+              <div className="flex justify-between items-center p-4 bg-white/5 backdrop-blur-lg rounded-2xl border border-white/5">
+                <span className="text-sm font-medium">Profile Verification</span>
+                <div className="badge badge-success badge-sm font-bold uppercase py-2 bg-success/20 text-success border-none">
+                  Verified
                 </div>
               </div>
-              <div className="flex justify-between items-center p-3 bg-white/10 rounded-2xl">
-                <span className="text-sm">Two-Factor Auth</span>
-                <span className="text-xs text-neutral">Disabled</span>
+              
+              <div className="flex flex-col gap-3 mt-6 p-4 bg-white/5 backdrop-blur-lg rounded-2xl border border-white/5">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium">Password</span>
+                  <span className="text-xs text-success flex items-center gap-1"><ShieldCheck size={12}/> Secure</span>
+                </div>
+                <Link href="/dashboard/profile/edit">
+                  <button className="btn btn-sm btn-outline text-white hover:bg-white hover:text-slate-900 w-full rounded-xl border-white/20">
+                    Change Password
+                  </button>
+                </Link>
               </div>
             </div>
+            
             <ShieldCheck
               size={120}
-              className="absolute -right-10 -bottom-10 text-neutral/10"
+              className="absolute -right-10 -bottom-10 text-white/5 rotate-12"
             />
           </div>
         </div>
